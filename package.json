@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "@cucumber/cucumber": "^7.3.1",
-    "axios": "^0.23.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
@@ -26,10 +25,7 @@
     "jest-runner-eslint": "^0.11.1",
     "jest-runner-prettier": "^0.3.7",
     "jsdoc-to-markdown": "^7.0.1",
-    "node-fetch": "^3.0.0",
-    "prettier": "^2.4.1",
-    "superagent": "^6.1.0",
-    "undici": "^4.8.1"
+    "prettier": "^2.4.1"
   },
   "scripts": {
     "lint": "eslint src example",

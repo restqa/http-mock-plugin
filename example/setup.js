@@ -23,7 +23,7 @@ class World {
 
 RestQAHTTPMock.addBeforeHook(function () {
   this.cp = fork(path.join(__dirname, "server.js"), {
-    silent: false,
+    silent: true,
     env: {
       ...process.env,
       ROARR_LOG: false,
