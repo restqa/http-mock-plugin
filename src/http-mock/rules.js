@@ -1,5 +1,5 @@
 const fs = require("fs");
-const YAML = require("YAML");
+const YAML = require("yaml");
 const glob = require("glob");
 
 module.exports = function (options) {
