@@ -7,12 +7,12 @@ const options = {
 }
 */
 const instance = new RestQAPlugin(RestQAHTTPMock.name);
-  instance
-    .addBeforeAllHook(async function() {
-      const config = instance._config
-      return RestQAHTTPMock.hooks.beforeAll(config)
-    })
-    .addBeforeHook(RestQAHTTPMock.hooks.before)
-    .addAfterAllHook(RestQAHTTPMock.hooks.afterAll);
+instance
+  .addBeforeAllHook(async function () {
+    const config = instance._config;
+    return RestQAHTTPMock.hooks.beforeAll(config);
+  })
+  .addBeforeHook(RestQAHTTPMock.hooks.before)
+  .addAfterAllHook(RestQAHTTPMock.hooks.afterAll);
 
 module.exports = instance;

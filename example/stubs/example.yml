@@ -1,13 +1,11 @@
 request:
-  url: /example
+  url: http://api.github.com/status
   method: GET
 response:
-  - status: 200
-    headers:
-       content-type: application/json
-    body: >
-      {
-        "message": "hello my friend"
-      }
-
-
+  status: 200
+  headers:
+    content-type: application/json
+  body: >
+    {
+      "message": "Hello World!"
+    }
