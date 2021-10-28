@@ -46,7 +46,7 @@ In your existing `.restqa.yml` under plugins in the local environment section, a
 ...
 - name: "@restqa/http-mock-plugin"
   config:
-    stub: ./tests/data/stubs
+    folder: ./tests/data/stubs
     debug: false
     port: 8888
     envs:
@@ -72,7 +72,7 @@ environments:
           url: http://localhost:8080
       - name: "@restqa/http-mock-plugin"
         config:
-          stub: ./tests/data/stubs
+          folder: ./tests/data/stubs
           debug: false
           port: 8888
         envs:
@@ -116,7 +116,7 @@ Then every time your microservice will perform a request targeting `GET http://a
 
 | *Variable*   | *Description*                                                                         | *Default*             |
 |:------------ |:--------------------------------------------------------------------------------------|:----------------------|
-| `stubs`      | The folder where there stub files are located                                         | `./stubs`             |
+| `folder`     | The folder where there stub files are located                                         | `./stubs`             |
 | `debug   `   | Help you to debug the behavior of the plugin by printing information into the console | `false`               |
 | `port`       | The port exposing the mock http proxy server                                          | `8899`                |     
 | `env`        | List of environment that requires to be overrided (obj env: folder)                   |                       |     

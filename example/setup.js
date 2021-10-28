@@ -6,9 +6,12 @@ const {deepStrictEqual} = require("assert");
 const {fork} = require("child_process");
 
 const config = {
-  stubs: path.resolve(__dirname, "./stubs"),
+  folder: path.resolve(__dirname, "./stubs"),
   debug: false,
-  port: 8888
+  port: 8888,
+  envs: {
+    GITHUB_API: "github"
+  }
 };
 
 class World {
@@ -22,26 +25,27 @@ class World {
 }
 
 RestQAHTTPMock.addBeforeHook(function () {
+  const {envs} = this.mock;
   this.cp = fork(path.join(__dirname, "server.js"), {
-    silent: true,
+    silent: !config.debug,
     env: {
       ...process.env,
-      ROARR_LOG: false,
-      HTTP_PROXY: this.mock.httpProxy,
-      HTTPS_PROXY: this.mock.httpProxy,
-      GLOBAL_AGENT_HTTP_PROXY: this.mock.httpProxy,
-      GLOBAL_AGENT_HTTPS_PROXY: this.mock.httpProxy
-      // NODE_TLS_REJECT_UNAUTHORIZED: 0
+      ...envs
     }
   });
 })
   .addAfterHook(function () {
     this.cp.kill("SIGKILL");
   })
-  .addGivenStep("one step definition", async function () {
+  .addThenStep("Chech json response body", async function () {
     const url = "http://localhost:3000";
     const {body} = await got.get(url + "/info", {responseType: "json"});
     deepStrictEqual(body.message, "Hello World!");
+  })
+  .addThenStep("Chech json match query parameters", async function () {
+    const url = "http://localhost:3000";
+    const {body} = await got.get(url + "/info?foo=bar", {responseType: "json"});
+    deepStrictEqual(body.message, "Hello World with query parameters!");
   })
   ._commit(cucumber, config);
 

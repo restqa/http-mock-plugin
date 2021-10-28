@@ -1,38 +1,41 @@
-const AnyProxy = require("anyproxy");
-const Rules = require("./rules");
+const path = require("path");
+const childProcess = require("child_process");
 
-let proxyServer;
 const options = {
   port: 8899,
-  webInterface: {
-    enable: false
-  },
-  throttle: 10000,
-  forceProxyHttps: false,
-  wsIntercept: false,
-  silent: true
+  quiet: false
 };
+
+let cp;
 
 module.exports = {
   name: "http-mock",
   hooks: {
     beforeAll: async function (config) {
-      console.log("> Spin up the http-mock-server 🐳 <"); // eslint-disable-line no-console
-      options.rule = Rules(config);
-      options.port = config.port || options.port;
+      console.log("> Spin up the http-mock-server 👻 <"); // eslint-disable-line no-console
       if (undefined !== config.debug) {
-        options.silent = !config.debug;
+        options.quiet = !config.debug;
       }
-      proxyServer = new AnyProxy.ProxyServer(options);
-      proxyServer.start();
+      cp = childProcess.fork(path.join(__dirname, "stubs.js"), {
+        silent: options.quiet
+      });
+      options.envs = config.envs;
+      options.folder = config.folder;
+      cp.send(options);
+      cp.unref();
+      cp.disconnect();
     },
     before: function () {
+      const {envs} = this.getConfig("http-mock");
       this.mock = {
-        httpProxy: `http://localhost:${options.port}`
+        envs: {}
       };
+      for (const [key, value] of Object.entries(envs)) {
+        this.mock.envs[key] = `http://localhost:${options.port}/${value}`;
+      }
     },
     afterAll: async function () {
-      proxyServer.close();
+      cp.kill();
     }
   }
 };
