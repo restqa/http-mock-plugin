@@ -32,10 +32,7 @@
     "lint:fix": "eslint src example --fix",
     "format": "prettier --check src example",
     "format:fix": "prettier --write src example",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch --coverage",
-    "example": "cucumber-js --require ./example/setup.js --publish-quiet --fail-fast ./example/features"
+    "test": "cucumber-js --require ./tests/setup.js --publish-quiet --fail-fast ./tests/features"
   },
   "keywords": [],
   "author": "",

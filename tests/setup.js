@@ -37,12 +37,12 @@ RestQAHTTPMock.addBeforeHook(function () {
   .addAfterHook(function () {
     this.cp.kill("SIGKILL");
   })
-  .addThenStep("Chech json response body", async function () {
+  .addThenStep("Chech JSON response body", async function () {
     const url = "http://localhost:3000";
     const {body} = await got.get(url + "/info", {responseType: "json"});
     deepStrictEqual(body.message, "Hello World!");
   })
-  .addThenStep("Chech json match query parameters", async function () {
+  .addThenStep("Chech JSON match query parameters", async function () {
     const url = "http://localhost:3000";
     const {body} = await got.get(url + "/info?foo=bar", {responseType: "json"});
     deepStrictEqual(body.message, "Hello World with query parameters!");
