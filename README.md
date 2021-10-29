@@ -9,8 +9,8 @@
 
 ### What is the problem this plugin solving?
 
-Microservice architecture is amazing because it helps to keep the atomicity of a service. However most of the time microservice are not independent, they depend on thirds party APIs.
-With this plugin we want to make mock of external HTTP services easy while testing microservice using RestQA.
+Microservice architecture is amazing because it helps to keep the atomicity of a service. However, most of the time microservice are not independent, they depend on thirds party APIs.
+With this plugin we want to make mocking of external HTTP services easy while testing microservice using RestQA.
 
 ## Installation
 
@@ -39,6 +39,8 @@ express()
     console.log('Server running on port 3000')
   })
 ```
+
+> ⚠️ Important! you need to use environement variable to manage your external HTTP request urls. The http-mock-plugin will override the selected environement variable accordingly.
 
 In your existing `.restqa.yml` under plugins in the local environment section, add the following:
 
