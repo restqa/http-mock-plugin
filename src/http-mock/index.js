@@ -13,7 +13,7 @@ module.exports = {
   hooks: {
     beforeAll: async function (config) {
       console.log("> Spin up the http-mock-server 👻 <"); // eslint-disable-line no-console
-      if (undefined !== config.debug) {
+      if (config.debug !== undefined) {
         options.quiet = !config.debug;
       }
       cp = childProcess.fork(path.join(__dirname, "stubs.js"), {

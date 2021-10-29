@@ -50,7 +50,7 @@ In your existing `.restqa.yml` under plugins in the local environment section, a
     debug: false
     port: 8888
     envs:
-      GITHUB_API: github
+      GITHUB_API: github # the key is the same as the variable env in the server snipper.
  ...
 ```
 
