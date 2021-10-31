@@ -9,7 +9,7 @@ process.on("message", function (options) {
   for (const [, folder] of Object.entries(options.envs)) {
     const files = glob.sync(`${options.folder}/${folder}/**/*.+(yaml|yml)`);
     files.reduce((stubs, file) => {
-      const stub = getStub(folder, file)
+      const stub = getStub(folder, file);
       stubs.push(stub);
       return stubs;
     }, options.data);
@@ -22,5 +22,5 @@ function getStub(folder, file) {
   const content = fs.readFileSync(file).toString("utf-8");
   const stub = YAML.parse(content);
   stub.request.url = "/" + folder + stub.request.url;
-  return stub
+  return stub;
 }

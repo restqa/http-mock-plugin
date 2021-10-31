@@ -11,31 +11,47 @@ let cp;
 module.exports = {
   name: "http-mock",
   hooks: {
-    beforeAll: async function (config) {
+    beforeAll: function (config) {
       console.log("> Spin up the http-mock-server 👻 <"); // eslint-disable-line no-console
-      if (config.debug !== undefined) {
-        options.quiet = !config.debug;
+      try {
+        const {envs} = config;
+
+        if (config.debug !== undefined) {
+          options.quiet = !config.debug;
+        }
+        cp = childProcess.fork(path.join(__dirname, "stubs.js"), {
+          silent: options.quiet
+        });
+        options.port = config.port || options.port;
+        options.envs = config.envs;
+        options.folder = config.folder;
+        cp.send(options);
+        cp.unref();
+        cp.disconnect();
+
+        this.restqa = this.restqa || {};
+        this.restqa.mock = this.restqa.mock || {};
+        this.restqa.mock.http = getMock(envs);
+      } catch (e) {
+        cp && cp.kill();
       }
-      cp = childProcess.fork(path.join(__dirname, "stubs.js"), {
-        silent: options.quiet
-      });
-      options.envs = config.envs;
-      options.folder = config.folder;
-      cp.send(options);
-      cp.unref();
-      cp.disconnect();
     },
     before: function () {
       const {envs} = this.getConfig("http-mock");
-      this.mock = {
-        envs: {}
+      this["http-mock"] = {
+        envs: getMock(envs)
       };
-      for (const [key, value] of Object.entries(envs)) {
-        this.mock.envs[key] = `http://localhost:${options.port}/${value}`;
-      }
     },
     afterAll: async function () {
-      cp.kill();
+      cp && cp.kill();
     }
   }
 };
+
+function getMock(envs) {
+  const result = {};
+  for (const [key, value] of Object.entries(envs)) {
+    result[key] = `http://localhost:${options.port}/${value}`;
+  }
+  return result;
+}

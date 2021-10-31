@@ -8,9 +8,9 @@ const options = {
 */
 const instance = new RestQAPlugin(RestQAHTTPMock.name);
 instance
-  .addBeforeAllHook(async function () {
+  .addBeforeAllHook(function () {
     const config = instance._config;
-    return RestQAHTTPMock.hooks.beforeAll(config);
+    return RestQAHTTPMock.hooks.beforeAll.call(this, config);
   })
   .addBeforeHook(RestQAHTTPMock.hooks.before)
   .addAfterAllHook(RestQAHTTPMock.hooks.afterAll);

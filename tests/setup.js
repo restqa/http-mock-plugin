@@ -8,7 +8,7 @@ const {fork} = require("child_process");
 const config = {
   folder: path.resolve(__dirname, "./stubs"),
   debug: false,
-  port: 8888,
+  port: 8887,
   envs: {
     GITHUB_API: "github"
   }
@@ -24,28 +24,47 @@ class World {
   }
 }
 
-RestQAHTTPMock.addBeforeHook(function () {
-  const {envs} = this.mock;
-  this.cp = fork(path.join(__dirname, "server.js"), {
-    silent: !config.debug,
-    env: {
-      ...process.env,
-      ...envs
+RestQAHTTPMock.addBeforeAllHook(function () {
+  const expectedObject = {
+    mock: {
+      http: {
+        GITHUB_API: "http://localhost:8887/github"
+      }
     }
-  });
+  };
+  deepStrictEqual(this.restqa, expectedObject);
 })
+  .addGivenStep("I start a server", function () {
+    const {envs} = this["http-mock"];
+    this.cp = fork(path.join(__dirname, "server.js"), {
+      silent: !config.debug,
+      env: {
+        ...process.env,
+        ...envs
+      }
+    });
+    const expectedObject = {
+      GITHUB_API: "http://localhost:8887/github"
+    };
+    deepStrictEqual(envs, expectedObject);
+  })
+  .addWhenStep("I GET {string}", async function (path) {
+    const url = "http://localhost:3001" + path;
+    const {body, statusCode} = await got.get(url, {
+      responseType: "json",
+      throwHttpErrors: false
+    });
+    this.body = body;
+    this.statusCode = statusCode;
+  })
+  .addThenStep("the status code should be {int}", function (status) {
+    deepStrictEqual(this.statusCode, status);
+  })
+  .addThenStep("the response body should be:", function (body) {
+    deepStrictEqual(body, body);
+  })
   .addAfterHook(function () {
-    this.cp.kill("SIGKILL");
-  })
-  .addThenStep("Chech JSON response body", async function () {
-    const url = "http://localhost:3000";
-    const {body} = await got.get(url + "/info", {responseType: "json"});
-    deepStrictEqual(body.message, "Hello World!");
-  })
-  .addThenStep("Chech JSON match query parameters", async function () {
-    const url = "http://localhost:3000";
-    const {body} = await got.get(url + "/info?foo=bar", {responseType: "json"});
-    deepStrictEqual(body.message, "Hello World with query parameters!");
+    this.cp && this.cp.kill("SIGKILL");
   })
   ._commit(cucumber, config);
 
