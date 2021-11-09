@@ -1,7 +1,7 @@
 {
-  "name": "http-mock-plugin",
+  "name": "@restqa/http-mock-plugin",
   "version": "0.0.1",
-  "description": "RestQA plugin enabling http mock",
+  "description": "RestQA plugin enabling mock of HTTP request",
   "main": "src/index.js",
   "dependencies": {
     "@restqa/plugin": "0.0.3",
