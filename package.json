@@ -1,0 +1,63 @@
+{
+  "name": "http-mock-plugin",
+  "version": "0.0.1",
+  "description": "RestQA plugin enabling http mock",
+  "main": "src/index.js",
+  "dependencies": {
+    "@restqa/plugin": "0.0.3",
+    "glob": "^7.2.0",
+    "stubby": "^5.1.0",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.3.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.5.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "express": "^4.17.1",
+    "global-agent": "^3.0.0",
+    "got": "^11.8.2",
+    "jest": "^27.2.4",
+    "jest-runner-eslint": "^0.11.1",
+    "jest-runner-prettier": "^0.3.7",
+    "jsdoc-to-markdown": "^7.0.1",
+    "prettier": "^2.4.1"
+  },
+  "scripts": {
+    "lint": "eslint src tests",
+    "lint:fix": "eslint src tests --fix",
+    "format": "prettier --check src tests",
+    "format:fix": "prettier --write src tests",
+    "test": "cucumber-js --require ./tests/setup.js --publish-quiet --fail-fast ./tests/features"
+  },
+  "keywords": [],
+  "author": "",
+  "jest": {
+    "projects": [
+      {
+        "runner": "jest-runner-eslint",
+        "displayName": "eslint",
+        "testMatch": [
+          "<rootDir>/src/**/*.js",
+          "<rootDir>/tests/**/*.js"
+        ]
+      },
+      {
+        "runner": "jest-runner-prettier",
+        "displayName": {
+          "name": "prettier",
+          "color": "blue"
+        },
+        "testMatch": [
+          "<rootDir>/src/**/*.js",
+          "<rootDir>/tests/**/*.js"
+        ]
+      }
+    ]
+  },
+  "license": "ISC"
+}
