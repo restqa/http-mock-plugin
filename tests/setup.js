@@ -49,7 +49,7 @@ RestQAHTTPMock.addBeforeAllHook(function () {
     deepStrictEqual(envs, expectedObject);
   })
   .addWhenStep("I GET {string}", async function (path) {
-    const url = "http://localhost:3001" + path;
+    const url = "http://localhost:3000" + path;
     const {body, statusCode} = await got.get(url, {
       responseType: "json",
       throwHttpErrors: false

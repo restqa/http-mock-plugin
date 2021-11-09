@@ -1,9 +1,10 @@
 const express = require("express");
 const got = require("got");
 
+const PORT = 3000
 express()
   .get("/info", async (req, res) => {
-    let url = `${process.env.GITHUB_API}/status`;
+    let url = `${process.env.GITHUB_API || 'https://api.github.com'}/status`;
     if (req.query.foo) {
       url += "?match=query";
     }
@@ -12,6 +13,6 @@ express()
     });
     res.status(statusCode).json(body);
   })
-  .listen(3001, () => {
-    console.log("server is running on port 3000"); // eslint-disable-line no-console
+  .listen(PORT, () => {
+    console.log(`server is running on port ${PORT}`); // eslint-disable-line no-console
   });
