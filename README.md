@@ -1,8 +1,10 @@
-# http-mock-plugin
+# HTTP Mock RestQA Plugin
 
 👻 | Plugin extending the RestQA capability in order to mock all the external HTTP request made by your microservice
 
 > Nothing is more annoying than mocking an external HTTP API on unit test!
+
+![banner](./assets/http-mock.png)
 
 
 ## Description
@@ -56,6 +58,16 @@ In your existing `.restqa.yml` under plugins in the local environment section, a
  ...
 ```
 
+### Options
+
+| *Variable*   | *Description*                                                                         | *Default*             |
+|:------------ |:--------------------------------------------------------------------------------------|:----------------------|
+| `folder`     | The folder where there stub files are located                                         | `./tests/stubs`       |
+| `debug   `   | Help you to debug the behavior of the plugin by printing information into the console | `false`               |
+| `port`       | The port exposing the mock http proxy server                                          | `8899`                |     
+| `env`        | List of environment that requires to be overrided (obj env: folder)                   |                       |     
+
+
 Example of a complete `.restqa.yml`: 
 
 ```yaml
@@ -83,6 +95,7 @@ environments:
       - type: html
         enabled: true
 ```
+
 In order to mock an external call you will need create a folder into the `stubs` folder (example: github)
 Then within this folder you will be required to add a list `yaml`
 The yaml file will need to respect the following format:
@@ -113,13 +126,4 @@ Then every time your microservice will perform a request targeting `GET http://a
   "message": "Hello World!"
 }
 ```
-
-## Options
-
-| *Variable*   | *Description*                                                                         | *Default*             |
-|:------------ |:--------------------------------------------------------------------------------------|:----------------------|
-| `folder`     | The folder where there stub files are located                                         | `./stubs`             |
-| `debug   `   | Help you to debug the behavior of the plugin by printing information into the console | `false`               |
-| `port`       | The port exposing the mock http proxy server                                          | `8899`                |     
-| `env`        | List of environment that requires to be overrided (obj env: folder)                   |                       |     
 
