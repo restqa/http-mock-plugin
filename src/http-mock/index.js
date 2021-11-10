@@ -24,7 +24,8 @@ module.exports = {
         });
         options.port = config.port || options.port;
         options.envs = config.envs;
-        options.folder = config.folder || path.resolve(process.cwd(), 'tests', 'stubs');
+        options.folder =
+          config.folder || path.resolve(process.cwd(), "tests", "stubs");
         cp.send(options);
         cp.unref();
         cp.disconnect();

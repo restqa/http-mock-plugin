@@ -1,10 +1,10 @@
 const express = require("express");
 const got = require("got");
 
-const PORT = 3000
+const PORT = 3000;
 express()
   .get("/info", async (req, res) => {
-    let url = `${process.env.GITHUB_API || 'https://api.github.com'}/status`;
+    let url = `${process.env.GITHUB_API || "https://api.github.com"}/status`;
     if (req.query.foo) {
       url += "?match=query";
     }
