@@ -4,7 +4,7 @@
 
 > Nothing is more annoying than mocking an external HTTP API on unit test!
 
-![banner](./assets/mock-http.png)
+![banner](https://raw.githubusercontent.com/restqa/http-mock-plugin/main/assets/mock-http.png)
 
 
 ## Description
