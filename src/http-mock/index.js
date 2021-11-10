@@ -55,3 +55,9 @@ function getMock(envs) {
   }
   return result;
 }
+
+process.on("exit", () => {
+  if (cp && !cp.killed) {
+    cp.kill();
+  }
+});
